@@ -9,13 +9,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
       - name: Install PlatformIO
         run: pip install platformio
+
       - name: Build firmware
         run: pio run
+
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: firmware
           path: .pio/build/esp32-c3-supermini/firmware.bin
+          if-no-files-found: error
