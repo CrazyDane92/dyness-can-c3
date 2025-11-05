@@ -1,0 +1,23 @@
+name: Build USB Golden (ESP32-C3)
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PlatformIO
+        run: pip install -U platformio
+      - name: Build
+        run: |
+          cd usb-golden
+          pio run -e usb_golden
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: usb-golden-firmware
+          path: usb-golden/.pio/build/usb_golden/firmware.bin
