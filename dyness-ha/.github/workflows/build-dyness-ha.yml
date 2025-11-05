@@ -1,0 +1,29 @@
+name: Build Dyness HA Decoder (ESP32-C3)
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install PlatformIO
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -U platformio
+
+      - name: Build firmware
+        run: |
+          cd dyness-ha
+          pio run -e dyness_ha
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dyness-ha-firmware
+          path: dyness-ha/.pio/build/dyness_ha/firmware.bin
